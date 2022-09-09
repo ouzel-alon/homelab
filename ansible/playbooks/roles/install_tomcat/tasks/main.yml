@@ -1,0 +1,126 @@
+---
+- name: set selinux to allow http traffic
+  seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true
+
+- name: setup service group
+  group:
+    name: "{{ tomcat_group }}"
+    state: present
+
+- name: setup service user
+  user:
+    name: "{{ tomcat_user }}"
+    comment: "{{ tomcat_user }} service account"
+    group: "{{ tomcat_group }}"
+    shell: /sbin/nologin
+    state: present
+
+- name: clean previous install
+  file:
+    state: absent
+    path: "{{ tomcat_install_path }}"
+  when: tomcat_clean | bool
+
+- name: setup install path
+  file:
+    state: directory
+    path: "{{ tomcat_install_path }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+
+- name: unpack tomcat archive
+  unarchive:
+    src: "files/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_path }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: 0755
+    extra_opts:
+      - --strip-components=1
+
+- name: unpack tomcat native
+  unarchive:
+    src: "files/apache-tomcat-native-{{ tomcat_native_version }}.tar.gz"
+    dest: "{{ tomcat_install_path }}/lib"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+
+- name: find windows binaries
+  find:
+    paths:
+      - "{{ tomcat_install_path }}/bin"
+    patterns: "*.bat"
+  register: find_results
+
+- name: remove windows binaries
+  file:
+    path: "{{ item['path'] }}"
+    state: absent
+  with_items: "{{ find_results['files'] }}"
+
+- name: remove webapps and extra files
+  file:
+    path: "{{ tomcat_install_path }}/{{ item }}"
+    state: absent
+  loop:
+    - "BUILDING.txt"
+    - "CONTRIBUTING.md"
+    - "LICENSE"
+    - "NOTICE"
+    - "README.md"
+    - "RELEASE-NOTES"
+    - "RUNNING.txt"
+    # - "webapps"
+
+# - name: recreate webapps
+#   file:
+#     path: "{{ tomcat_install_path }}/{{ item }}"
+#     state: directory
+#     owner: "{{ tomcat_user }}"
+#     group: "{{ tomcat_group }}"
+#   loop:
+#     - "webapps/ROOT"
+
+# set up tomcat to properly interact with systemd
+# https://jdebp.uk/FGA/systemd-house-of-horror/tomcat.html
+
+- name: setup tomcat defaults
+  template:
+    src: tomcat.defaults.j2
+    dest: /etc/default/tomcat
+    mode: 0644
+
+- name: check if service exists
+  ansible.builtin.service_facts:
+
+- name: configure tomcat service
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+    mode: 0644
+  notify: reload systemd
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: configure tomcat to run on startup
+  service:
+    name: tomcat
+    state: started
+    enabled: true
+
+- name: wait until tomcat is up
+  wait_for:
+    port: "{{ tomcat_port }}"
+    timeout: 10
+
+- name: open firewall to tomcat
+  firewalld:
+    zone: public
+    port: "{{ tomcat_port }}/tcp"
+    permanent: true
+    state: enabled
+  notify: reload firewall

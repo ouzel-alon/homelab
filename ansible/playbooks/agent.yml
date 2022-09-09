@@ -1,0 +1,15 @@
+---
+# Syntax:
+# ansible-playbook playbook.yml
+- name: provision jenkins agents
+  hosts: jenkins_agent
+  connection: local
+  vars_files:
+    - 'group_vars/jenkins.yml'
+
+  roles:
+    - system_bootstrap
+    - install_git
+    - install_java
+    - role: install_jenkins_agent
+      become: true

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    # hostname: '192.168.56.30'
+    hostname: 'gitlab.test'
+    domainname: 'gitlab.test'
+    environment:
+      VIRTUAL_HOST: 'gitlab.test'
+      VIRTUAL_PORT: 8081
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_default_theme'] = 2
+        gitlab_rails['time_zone'] = 'Australia/Queensland'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        external_url 'http://gitlab.test'
+        nginx['listen_https'] = false
+        nginx['listen_port'] = 8081
+    ports:
+      - '8081:8081'
+      - '2222:22'
+    expose:
+      - '8081'
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+
+networks:
+  default:
+    name: proxy_reverse-proxy
+    external: true

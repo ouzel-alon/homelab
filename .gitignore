@@ -1,0 +1,5 @@
+*/.vagrant/*
+*/ansible/*
+
+# ignore downloaded binaries
+ansible/files/*

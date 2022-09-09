@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # more updated than the official centos7 image
+  config.vm.box = "generic/centos7"
+
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.uri = 'qemu:///system'
+    libvirt.storage_pool_path = '/var/lib/libvirt/images'
+  end
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+      type: :nfs,
+      mount_options: ['rw', 'vers=4', 'tcp', 'nolock']
+    }
+  end
+
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.manage_guest = false
+  end
+
+  # Mount the ansible folder as an nfsv4 share
+  config.vm.synced_folder "../../ansible/", "/vagrant/ansible",
+    type: "nfs", nfs_version: 4, nfs_udp: false
+end

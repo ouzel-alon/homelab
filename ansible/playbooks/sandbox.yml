@@ -1,0 +1,14 @@
+---
+# Syntax:
+# ansible-playbook playbook.yml
+- name: provision sandbox
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - 'group_vars/sandbox.yml'
+
+  tasks:
+    - name: hello
+      debug:
+        msg: "hello world"

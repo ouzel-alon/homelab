@@ -1,0 +1,10 @@
+---
+tomcat_version: 9.0.53
+tomcat_native_version: 1.2.31
+tomcat_user: "tomcat"
+tomcat_group: "{{ tomcat_user }}"
+
+tomcat_install_path: "/opt/tomcat"
+tomcat_java_path: "/usr/lib/jvm/jre"
+tomcat_port: 8080
+tomcat_clean: true

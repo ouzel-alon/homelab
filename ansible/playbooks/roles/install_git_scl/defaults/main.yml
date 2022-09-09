@@ -1,0 +1,3 @@
+---
+scl_package: "centos-release-scl"
+git_package: "rh-git218"

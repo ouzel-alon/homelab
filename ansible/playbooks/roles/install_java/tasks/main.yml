@@ -1,0 +1,16 @@
+---
+- name: install java
+  package:
+    name:
+      - "{{ java_package }}"
+    state: present
+  become: true
+
+- name: verify java is installed
+  shell: "java --version | grep openjdk | awk '{print $2}'"
+  register: java_version
+  changed_when: false
+
+- name: print java version
+  debug:
+    msg: "{{ java_version.stdout }}"

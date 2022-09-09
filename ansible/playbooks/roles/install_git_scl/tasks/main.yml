@@ -1,0 +1,29 @@
+---
+- block:
+    - name: install centos software collections
+      package:
+        name: "{{ scl_package }}"
+        state: present
+
+    - name: install git from scl
+      package:
+        name: "{{ git_package }}"
+        state: present
+
+    - name: make scl git systemwide
+      template:
+        src: scl_git.sh.j2
+        dest: /etc/profile.d/scl_git.sh
+        mode: 0644
+  become: true
+
+- name: verify git is installed
+  shell: "git --version | awk '{print $3}'"
+  register: git_version
+  become: true
+  become_flags: "-i"
+  changed_when: false
+
+- name: print git version
+  debug:
+    msg: "{{git_version.stdout}}"

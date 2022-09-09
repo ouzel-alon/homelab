@@ -1,0 +1,8 @@
+---
+jenkins_jnlp_port: 8081
+jenkins_data_path: /var/lib/jenkins
+jenkins_domain: build.example.com
+
+tomcat_user: jenkins
+agent_user: jenkins
+agent_key: "{{ lookup('file', 'files/keys/id_ed25519_jenkins.pub') }}"

@@ -1,0 +1,27 @@
+server {
+  listen          80;
+  server_name     {{ jenkins_domain }};
+
+  # access_log      /var/log/nginx/jenkins.access.log;
+  # error_log       /var/log/nginx/jenkins.error.log;
+
+  # pass through headers from Jenkins that Nginx considers invalid
+  # ignore_invalid_headers off;
+
+  location / {
+      proxy_set_header        Host $host:$server_port;
+      proxy_set_header        X-Real-IP $remote_addr;
+      proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header        X-Forwarded-Proto $scheme;
+
+      proxy_pass         http://127.0.0.1:8080;
+      proxy_redirect     http://127.0.0.1:8080 http://{{ jenkins_domain }};
+      proxy_http_version 1.1;
+      proxy_request_buffering off;
+      
+      proxy_connect_timeout      90;
+      proxy_send_timeout         90;
+      proxy_read_timeout         90;
+
+  }
+}

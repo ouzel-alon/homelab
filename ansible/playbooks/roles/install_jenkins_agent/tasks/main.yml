@@ -1,0 +1,30 @@
+---
+- name: setup service group
+  group:
+    name: "{{ agent_group }}"
+    state: present
+
+- name: setup service user
+  user:
+    name: "{{ agent_user }}"
+    comment: "{{ agent_user }} service account"
+    group: "{{ agent_group }}"
+    state: present
+
+- name: setup jenkins data path
+  file:
+    state: directory
+    path: "{{ jenkins_data_path }}"
+    owner: "{{ agent_user }}"
+
+- name: set keypair
+  authorized_key:
+    user: "{{ agent_user }}"
+    key: "{{ agent_key }}"
+
+- name: open firewall to jenkins jnlp
+  firewalld:
+    zone: public
+    port: "{{ jenkins_jnlp_port }}/tcp"
+    permanent: true
+    state: enabled

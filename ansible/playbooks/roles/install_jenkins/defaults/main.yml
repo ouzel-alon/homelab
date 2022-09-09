@@ -1,0 +1,2 @@
+---
+jenkins_install_path: "{{ tomcat_install_path }}/webapps/ROOT"

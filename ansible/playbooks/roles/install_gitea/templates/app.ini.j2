@@ -1,0 +1,74 @@
+APP_NAME = Gitea
+RUN_USER = {{ gitea_user }}
+RUN_MODE = prod
+
+[security]
+INTERNAL_TOKEN     = {{ gitea_secrets.results[0].stdout }}
+INSTALL_LOCK       = true
+SECRET_KEY         = {{ gitea_secrets.results[1].stdout }}
+PASSWORD_HASH_ALGO = pbkdf2
+
+[database]
+DB_TYPE  = sqlite3
+HOST     = 127.0.0.1:3306
+NAME     = gitea
+USER     = gitea
+PASSWD   =
+SCHEMA   =
+SSL_MODE = disable
+CHARSET  = utf8
+PATH     = {{ gitea_data_path }}/data/gitea.db
+LOG_SQL  = false
+
+[repository]
+ROOT = {{ gitea_data_path }}/data/gitea-repositories
+
+[server]
+SSH_DOMAIN       = {{ gitea_domain }}
+DOMAIN           = {{ gitea_domain }}
+HTTP_PORT        = {{ gitea_port }}
+ROOT_URL         = {{ gitea_url }}
+DISABLE_SSH      = false
+SSH_PORT         = 22
+LFS_START_SERVER = false
+LFS_CONTENT_PATH = {{ gitea_data_path }}/data/lfs
+LFS_JWT_SECRET   = {{ gitea_secrets.results[2].stdout }}
+OFFLINE_MODE     = true
+
+[ui]
+SHOW_USER_EMAIL  = false
+
+[git]
+PATH = {{ git_path }}/git
+
+[mailer]
+ENABLED = false
+
+[service]
+REGISTER_EMAIL_CONFIRM            = false
+ENABLE_NOTIFY_MAIL                = false
+DISABLE_REGISTRATION              = true
+ALLOW_ONLY_EXTERNAL_REGISTRATION  = false
+ENABLE_CAPTCHA                    = false
+REQUIRE_SIGNIN_VIEW               = true
+DEFAULT_KEEP_EMAIL_PRIVATE        = true
+DEFAULT_ALLOW_CREATE_ORGANIZATION = true
+DEFAULT_ENABLE_TIMETRACKING       = false
+NO_REPLY_ADDRESS                  = noreply.localhost
+
+[picture]
+DISABLE_GRAVATAR        = true
+ENABLE_FEDERATED_AVATAR = false
+
+[openid]
+ENABLE_OPENID_SIGNIN = false
+ENABLE_OPENID_SIGNUP = false
+
+[session]
+PROVIDER = file
+
+[log]
+MODE      = console
+LEVEL     = info
+ROOT_PATH = {{ gitea_data_path }}/log
+ROUTER    = console

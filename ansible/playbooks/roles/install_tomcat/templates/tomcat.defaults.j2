@@ -1,0 +1,8 @@
+CATALINA_HOME={{ tomcat_install_path }}
+CATALINA_BASE={{ tomcat_install_path }}
+CATALINA_TMPDIR={{ tomcat_install_path }}/temp
+JAVA_HOME={{ tomcat_java_path }}
+
+CATALINA_OPTS="-server -Xms1024M -Xmx1024M -XX:+UseParallelGC"
+JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
+CLASSPATH="{{ tomcat_install_path }}/bin/bootstrap.jar:{{ tomcat_install_path }}/bin/tomcat-juli.jar"

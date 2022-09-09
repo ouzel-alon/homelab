@@ -1,0 +1,34 @@
+---
+- name: setup jenkins install path
+  file:
+    state: directory
+    path: "{{ tomcat_install_path }}/webapps/jenkins"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+
+- name: setup jenkins data path
+  file:
+    state: directory
+    path: "{{ jenkins_data_path }}"
+    owner: "{{ tomcat_user }}"
+
+- name: deploy jenkins war
+  unarchive:
+    src: "files/jenkins.war"
+    dest: "{{ jenkins_install_path }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    # creates: "{{ tomcat_install_path }}/webapps/jenkins"
+  notify: restart tomcat
+
+- name: write tomcat configs
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ tomcat_install_path }}/conf/{{ item }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+  loop:
+    - "context.xml"
+    - "server.xml"
+    - "catalina.properties"
+  notify: restart tomcat

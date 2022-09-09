@@ -1,0 +1,4 @@
+---
+target_status_code: [200, 302]
+check_retries: 5
+check_delay: 3

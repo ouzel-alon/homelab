@@ -1,0 +1,15 @@
+---
+# Syntax:
+# ansible-playbook playbook.yml
+- name: provision gitea
+  hosts: gitea
+  connection: local
+
+  roles:
+    - system_bootstrap
+    - install_git_scl
+    - role: install_gitea
+      become: true
+    - role: install_nginx
+      nginx_config_file: 'gitea'
+      become: true

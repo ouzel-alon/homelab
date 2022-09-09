@@ -1,0 +1,53 @@
+---
+- name: print system facts
+  ansible.builtin.debug:
+    msg: |
+      ansible version: {{ ansible_version.full }}
+      python version: {{ ansible_python_version }}
+      target hostname: {{ ansible_nodename }}
+      target os: {{ ansible_distribution }}
+      target ips: {{ ansible_all_ipv4_addresses }}
+      running as: {{ ansible_user_id }}
+
+- name: setup common configs
+  become: true
+  block:
+    - name: ensure pre-requisite packages are installed
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mlocate
+        - epel-release
+        - libselinux-python
+        - libsemanage-python
+        - unzip
+
+    - name: ensure selinux is running
+      ansible.builtin.selinux:
+        policy: targeted
+        state: enforcing
+
+    - name: write yum config
+      ansible.builtin.template:
+        src: templates/yum.conf.j2
+        dest: /etc/yum.conf
+        mode: 0644
+
+    - name: disable yum fastestmirror
+      ansible.builtin.template:
+        src: templates/fastestmirror.conf.j2
+        dest: /etc/yum/pluginconf.d/fastestmirror.conf
+        mode: 0644
+
+    - name: run updatedb
+      ansible.builtin.command: updatedb
+      changed_when: false
+
+- name: load custom bashrc
+  ansible.builtin.template:
+    src: templates/bashrc.j2
+    dest: "{{ ansible_user_dir }}/.bashrc"
+    owner: "{{ ansible_user_id }}"
+    group: vagrant
+    mode: 0644

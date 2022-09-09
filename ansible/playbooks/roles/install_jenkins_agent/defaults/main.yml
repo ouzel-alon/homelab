@@ -1,0 +1,3 @@
+---
+agent_user: "jenkins"
+agent_group: "{{ agent_user }}"

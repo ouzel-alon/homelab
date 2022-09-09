@@ -1,0 +1,143 @@
+---
+- name: setup service group
+  group:
+    name: "{{ gitea_group }}"
+    state: present
+
+- name: setup service user
+  user:
+    name: "{{ gitea_user }}"
+    comment: "{{ gitea_user }} service account"
+    group: "{{ gitea_group }}"
+    home: "/home/{{ gitea_user }}"
+    state: present
+
+- name: setup .ssh folder
+  file:
+    state: directory
+    path: "/home/{{ gitea_user }}/.ssh"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    mode: 0700
+
+- name: setup .ssh files
+  file:
+    state: touch
+    path: "/home/{{ gitea_user }}/.ssh/{{ item }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    mode: 0600
+  loop:
+    - "authorized_keys"
+    - "config"
+
+- name: setup install path
+  file:
+    state: directory
+    path: "{{ gitea_install_path }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    mode: 0644
+
+- name: setup data paths
+  file:
+    state: directory
+    path: "/var/lib/gitea/{{ item }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    recurse: true
+    mode: 0755
+  loop:
+    - "data"
+    - "data/gitea-repositories"
+    - "custom"
+    - "custom/https"
+    - "log"
+
+- name: setup config path
+  file:
+    state: directory
+    path: "/etc/gitea"
+    owner: "{{ gitea_group }}"
+    group: "{{ gitea_group }}"
+    mode: 0755
+
+- name: check if binary exists
+  stat:
+    path: "{{ gitea_install_path }}/gitea"
+  register: gitea_installed
+
+- name: download and install gitea
+  get_url:
+    url: "{{ gitea_download_url }}"
+    dest: "{{ gitea_install_path }}/gitea"
+    timeout: 60
+    mode: 0744
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+  when: (not gitea_installed.stat.exists|bool) and (gitea_download|bool)
+  register: gitea_downloaded
+
+- name: install gitea
+  copy:
+    src: "files/gitea-{{ gitea_version }}-linux-amd64"
+    dest: "{{ gitea_install_path }}/gitea"
+    mode: 0744
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+  when: (not gitea_installed.stat.exists|bool) and (not gitea_download|bool)
+
+- name: generate application secrets
+  command: "{{ gitea_install_path }}/gitea generate secret {{ item|upper }}"
+  loop:
+    - internal_token
+    - secret_key
+    - jwt_secret
+  register: gitea_secrets
+  changed_when: (not gitea_installed.stat.exists|bool)
+  no_log: true
+
+- name: generate gitea config
+  template:
+    src: app.ini.j2
+    dest: "{{ gitea_config_path }}/app.ini"
+    mode: 0750
+    group: "{{ gitea_group }}"
+  notify: restart gitea
+
+- name: initialize gitea sqlite db if not created yet
+  command: >
+    "{{ gitea_install_path }}/gitea migrate -c {{ gitea_config_path }}/app.ini"
+  args:
+    creates: "{{ gitea_data_path }}//data/gitea.db"
+  become: true
+  become_user: "{{ gitea_user }}"
+
+- name: check if service exists
+  ansible.builtin.service_facts:
+
+- name: configure gitea service
+  template:
+    src: gitea.service.j2
+    dest: /etc/systemd/system/gitea.service
+    mode: 0750
+  notify: reload systemd
+
+- name: configure gitea to run on startup
+  service:
+    name: gitea
+    state: started
+    enabled: true
+
+- name: wait until gitea is up
+  wait_for:
+    port: "{{ gitea_port }}"
+    timeout: 10
+
+# - name: open firewall to gitea
+#   firewalld:
+#     zone: public
+#     port: {{ gitea_port }}/tcp
+#     permanent: true
+#     state: enabled
+#   notify: reload firewall

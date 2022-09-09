@@ -1,0 +1,16 @@
+---
+- name: install git
+  package:
+    name:
+      - "{{ git_package }}"
+    state: present
+  become: true
+
+- name: verify git is installed
+  shell: "git --version | awk '{print $3}'"  # noqa
+  register: git_version
+  changed_when: false
+
+- name: print git version
+  debug:
+    msg: "{{ git_version.stdout }}"

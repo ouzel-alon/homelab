@@ -1,0 +1,16 @@
+---
+- name: print endpoint target
+  debug:
+    msg: "{{ target_url }}"
+
+- name: verify endpoints
+  uri:
+    url: "{{ item }}"
+    status_code: "{{ target_status_code }}"
+    return_content: true
+    validate_certs: false
+  register: result
+  until: result.status in target_status_code
+  retries: "{{ check_retries }}"
+  delay: "{{ check_delay }}"
+  loop: "{{ target_url }}"

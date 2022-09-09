@@ -1,0 +1,35 @@
+---
+# Syntax:
+# ansible-playbook playbook.yml
+- name: provision jenkins controller
+  hosts: jenkins_master
+  connection: local
+  vars_files:
+    - 'group_vars/jenkins.yml'
+
+  roles:
+    - system_bootstrap
+    - install_java
+    - role: install_tomcat
+      become: true
+      tags: tomcat
+    - role: install_jenkins
+      become: true
+      tags: deploy
+    - role: install_nginx
+      nginx_config_file: 'jenkins'
+      become: true
+      tags: nginx
+
+- name: provision jenkins agents
+  hosts: jenkins_agent
+  connection: local
+  vars_files:
+    - 'group_vars/jenkins.yml'
+
+  roles:
+    - system_bootstrap
+    - install_git
+    - install_java
+    - role: install_jenkins_agent
+      become: true
