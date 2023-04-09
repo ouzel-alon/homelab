@@ -1,6 +1,6 @@
 # Homelab
 
-This repository contains scripts that build my homelab environment.
+This monorepo runs my homelab.
 
 This was originally created on a Fedora 34 host before being ported into a standard Virtualbox setup, so some kvm/libvirt references may remain.
 
