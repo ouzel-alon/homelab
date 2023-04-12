@@ -25,8 +25,8 @@ nodeSelectorTerms:
 Deploy to your cluster:
 
 ```bash
-$ cd jenkins
-$ kubectl apply -k .
+cd jenkins
+kubectl apply -k .
 ```
 
 Then check if it's running and the ingress rule has your cluster IP:
@@ -52,7 +52,7 @@ Location: http://<your-cluster-ip>/jenkins/
 Grab the initial password from the pod, replacing the command below with the jenkins pod name:
 
 ```bash
-$ kubectl exec -it -n jenkins <REPLACEME> -- cat /var/jenkins_home/secrets/initialAdminPassword
+kubectl exec -it -n jenkins <REPLACEME> -- cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 Then navigate with your browser to the `/jenkins` URL on your external cluster IP and provide it the initial password to begin the first time setup process.
