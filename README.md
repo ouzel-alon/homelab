@@ -2,9 +2,41 @@
 
 This monorepo runs my homelab.
 
-This was originally created on a Fedora 34 host before being ported into a standard Virtualbox setup, so some kvm/libvirt references may remain.
+This is currently a mix of static VMs (provisioned with Vagrant) and a Kubernetes cluster.
 
-## Getting started
+## Kubernetes
+
+State: Prototype
+
+### Getting started
+
+Prerequisites:
+
+* `kubectl` 1.26+
+* A tool that sets up a local Kubernetes 1.26 cluster. This can be:
+  * `microk8s`
+  * `minikube`
+
+This guide uses `minikube` 1.30+.
+
+1. Start a multinode cluster. Enable a CNI plugin so we can apply Network Policies in the future:
+
+```
+minikube config set container-runtime cri-o
+minikube start -n 2 --cni calico --image-repository=registry.k8s.io
+```
+
+2. Enable an ingress controller. Minikube can enable `ingress-nginx` as a convenient addon:
+
+```
+minikube addons enable ingress
+```
+
+## Vagrant
+
+### Getting started
+
+This was originally created on a Fedora 34 host before being ported into a standard Virtualbox setup, so some kvm/libvirt references may remain.
 
 1. Setup system for virtualisation:
 - [Fedora Docs](https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-virtualization/)
@@ -60,7 +92,7 @@ Make it so:
   vagrant up
 ```
 
-## Troubleshooting
+### Troubleshooting
 
 Getting a root password prompt when mounting with NFS:
 
