@@ -6,9 +6,9 @@ commonLabels:
 metadata:
   name: jenkins
 resources:
-- namespace.yaml
-- serviceaccount.yaml
-- volume.yaml
-- deployment.yaml
-- service.yaml
-- ingress.yaml
+  - namespace.yaml
+  - serviceaccount.yaml
+  - volume.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

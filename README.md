@@ -56,7 +56,7 @@ $ firewall-cmd --list-ports --zone=libvirt
 2049/tcp
 ```
 
-3. (Optional) Install some quality of life plugins. `vagrant-cachier` sets up up a local package cache on your host to prevent constant yum/pip downloads when spinning up VMs, and `vagrant-hostmanager` will manage your hosts file so you don't have to worry about their IP addresses. 
+3. (Optional) Install some quality of life plugins. `vagrant-cachier` sets up up a local package cache on your host to prevent constant yum/pip downloads when spinning up VMs, and `vagrant-hostmanager` will manage your hosts file so you don't have to worry about their IP addresses.
 
 ```
 vagrant plugin install vagrant-cachier

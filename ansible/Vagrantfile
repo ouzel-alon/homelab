@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     config.vm.box = "generic/fedora35"
     config.vm.hostname = "ansible"
     config.vm.network :private_network, ip: "192.168.56.10"
-  
+
     # Enable provisioning with a shell script. Additional provisioners such as
     # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
     # documentation for more information about their specific syntax and use.
@@ -21,4 +21,3 @@ Vagrant.configure("2") do |config|
       sudo timedatectl set-timezone Australia/Queensland
     SHELL
   end
-  
