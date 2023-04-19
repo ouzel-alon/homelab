@@ -60,3 +60,5 @@ Then navigate with your browser to the `/jenkins` URL on your external cluster I
 ## Notes
 
 The manifests use the `jenkins` namespace. Update it if you want Jenkins to run somewhere else.
+
+If using the `jenkins/inbound-agent` image, ensure that the container template name in the plugin is set to `jnlp`
