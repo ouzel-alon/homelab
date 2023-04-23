@@ -3,3 +3,7 @@
 
 # ignore downloaded binaries
 ansible/files/*
+
+# helm
+*/charts/*
+Chart.lock

@@ -14,22 +14,32 @@ Prerequisites:
 
 * `kubectl` 1.26+
 * A tool that sets up a local Kubernetes 1.26 cluster. This can be:
+  * `kind`
   * `microk8s`
   * `minikube`
 
 This guide uses `minikube` 1.30+.
 
-1. Start a multinode cluster. Enable a CNI plugin so we can apply Network Policies in the future:
+1. Start a multinode cluster. Enable a more capable CNI plugin like `calico` or `flannel` so we can apply network policies in the future (and easily tunnel the ingress controller to localhost if using WSL2)
 
-```
-minikube config set container-runtime cri-o
-minikube start -n 2 --cni calico --image-repository=registry.k8s.io
+```bash
+minikube start -n 2 --cni calico
 ```
 
 2. Enable an ingress controller. Minikube can enable `ingress-nginx` as a convenient addon:
 
-```
+```bash
 minikube addons enable ingress
+```
+
+3. For Minikube, change the default storage provisioner with Rancher's [Local Path Provisioner](https://github.com/rancher/local-path-provisioner). This makes the cluster behave closer to real-world clusters or you'll run into pod crashes when deploying PVs across a multi-node cluster.
+
+Once deployed, set it as the default storage class:
+
+```bash
+kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
 ## Vagrant
