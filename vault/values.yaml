@@ -1,0 +1,15 @@
+---
+server:
+  # run them together on smaller clusters
+  affinity: ""
+
+  ha:
+    enabled: true
+    raft:
+      enabled: true
+
+  image:
+    tag: "1.13.1"
+
+injector:
+  replicas: 0

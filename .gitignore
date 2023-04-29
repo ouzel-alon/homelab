@@ -1,4 +1,4 @@
-*/.vscode/*
+/.vscode
 */.vagrant/*
 */ansible/*
 
@@ -8,3 +8,6 @@ ansible/files/*
 # helm
 */charts/*
 Chart.lock
+
+# vault conveniences
+cluster-keys.json
