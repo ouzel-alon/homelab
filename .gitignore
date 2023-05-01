@@ -11,3 +11,7 @@ Chart.lock
 
 # vault conveniences
 cluster-keys.json
+
+# prometheus operator
+prometheus/manifests/
+prometheus/vendor/
