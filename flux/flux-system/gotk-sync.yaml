@@ -12,6 +12,10 @@ spec:
   secretRef:
     name: flux-system
   url: ssh://git@github.com/ouzel-alon/homelab
+  ignore: |
+    /*
+    !/apps
+    !/flux
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -20,7 +24,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./apps/flux
+  path: ./flux
   prune: true
   sourceRef:
     kind: GitRepository
