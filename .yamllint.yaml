@@ -7,4 +7,4 @@ rules:
     level: warning
 
 ignore:
-  - apps/flux-system
+  - apps/flux/flux-system
