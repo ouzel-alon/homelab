@@ -4,7 +4,10 @@ apiVersion: kind.x-k8s.io/v1alpha4
 networking:
   # if replacing kindnet with calico
   # disableDefaultCNI: true
-  podSubnet: 192.168.0.0/16
+
+  # check what calico is configured with:
+  # kubectl exec -ti -n kube-system calicoctl -- /calicoctl get ippool
+  podSubnet: 192.168.0.0/24
 nodes:
   - role: control-plane
     kubeadmConfigPatches:
