@@ -23,7 +23,7 @@ flux bootstrap git -s \
 
 Flux is bootstrapped to look for its own manifests under the `flux-system` folder in `/flux`
 
-Inside flux-system, `gotk-sync.yaml` sets up a source controller against this repo and watches for manifests under `/flux`, including watching and syncing itself.
+Inside flux-system, `gotk-sync.yaml` sets up a [source controller](https://fluxcd.io/flux/components/source/) against this repo and watches for manifests under `/flux`, including watching and syncing itself.
 
 Right now there's only `apps-sync.yaml`, but more can be added here for multiple clusters/separating out environments.
 
