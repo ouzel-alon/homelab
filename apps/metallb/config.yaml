@@ -1,0 +1,19 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: private-network-pool
+spec:
+  addresses:
+    - 192.168.0.128/25
+  # https://metallb.org/configuration/_advanced_ipaddresspool_configuration/#handling-buggy-networks
+  avoidBuggyIPs: true
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: private-network-arp
+spec:
+  ipAddressPools:
+    - private-network-pool
