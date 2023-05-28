@@ -1,0 +1,30 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: foo-app
+  labels:
+    app: http-echo
+spec:
+  containers:
+    - name: foo-app
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=foo"
+      ports:
+        - containerPort: 5678
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: bar-app
+  labels:
+    app: http-echo
+spec:
+  containers:
+    - name: bar-app
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=bar"
+      ports:
+        - containerPort: 5678

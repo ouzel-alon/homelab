@@ -2,10 +2,14 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: private-network-pool
+  name: docker-bridge
+  namespace: metallb-system
 spec:
+  # Bind to the docker container network:
+  # docker network inspect -f '{{.IPAM.Config}}' kind
+  # https://kind.sigs.k8s.io/docs/user/loadbalancer/
   addresses:
-    - 192.168.0.128/25
+    - 172.19.255.240/28
   # https://metallb.org/configuration/_advanced_ipaddresspool_configuration/#handling-buggy-networks
   avoidBuggyIPs: true
 
@@ -13,7 +17,8 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: private-network-arp
+  name: docker-bridge-arp
+  namespace: metallb-system
 spec:
   ipAddressPools:
-    - private-network-pool
+    - docker-bridge
