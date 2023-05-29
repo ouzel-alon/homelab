@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: calicoctl
+  namespace: kube-system
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+  hostNetwork: true
+  serviceAccountName: calicoctl
+  containers:
+    - name: calicoctl
+      image: calico/ctl:v3.26.0
+      command:
+        - /calicoctl
+      args:
+        - version
+        - --poll=1m
+      env:
+        - name: DATASTORE_TYPE
+          value: kubernetes
