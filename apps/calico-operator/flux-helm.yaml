@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: tigera-operator
+  name: calico-operator
 spec:
   interval: 10m0s
   url: https://projectcalico.docs.tigera.io/charts
@@ -11,8 +11,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: tigera-operator
-  namespace: tigera-operator
+  name: calico-operator
 spec:
   interval: 10m0s
   chart:
@@ -21,7 +20,7 @@ spec:
       version: v3.25.1
       sourceRef:
         kind: HelmRepository
-        name: tigera-operator
+        name: calico-operator
   maxHistory: 3
   install:
     createNamespace: true
