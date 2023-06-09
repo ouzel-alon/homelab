@@ -7,7 +7,7 @@ set -e
 set -u
 set -o pipefail
 
-CALICO_VER="3.26.0"
+CALICO_VER="3.25.1"
 METALLB_VER="0.13.9"
 
 IMAGES=(
@@ -55,8 +55,8 @@ case $1 in
         for i in "${IMAGES[@]}"; do
             docker image pull "$i";
         done
-        ;&
-    *)
+    ;&
+    "install")
         echo -e "* Load image to cluster\n"
         for i in "${IMAGES[@]}"; do
             case $CLUSTER_BIN in

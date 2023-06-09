@@ -11,7 +11,7 @@ spec:
   serviceAccountName: calicoctl
   containers:
     - name: calicoctl
-      image: calico/ctl:v3.26.0
+      image: calico/ctl:v3.25.0
       command:
         - /calicoctl
       args:

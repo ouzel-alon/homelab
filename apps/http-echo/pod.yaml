@@ -13,6 +13,7 @@ spec:
         - "-text=foo"
       ports:
         - containerPort: 5678
+
 ---
 kind: Pod
 apiVersion: v1

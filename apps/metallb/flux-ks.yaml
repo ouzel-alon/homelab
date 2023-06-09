@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: metallb-git
-  namespace: metallb
+  namespace: flux-system
 spec:
   interval: 10m0s
   ref:
@@ -15,21 +15,22 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: metallb
-  namespace: metallb
+  namespace: flux-system
 spec:
   interval: 10m0s
   path: ./config/native
   prune: true
   sourceRef:
     kind: GitRepository
-    name: metallb
+    name: metallb-git
+  targetNamespace: metallb-system
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: metallb-config
-  namespace: metallb
+  namespace: flux-system
 spec:
   dependsOn:
     - name: metallb
@@ -39,3 +40,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: apps
+  targetNamespace: metallb-system

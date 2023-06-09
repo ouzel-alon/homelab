@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: foobar-service
+  name: foobar
 spec:
   type: LoadBalancer
   selector:

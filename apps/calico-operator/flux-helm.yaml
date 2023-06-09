@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: calico-operator-chart
-  namespace: calico-operator
+  namespace: flux-system
 spec:
   interval: 10m0s
   url: https://projectcalico.docs.tigera.io/charts
@@ -13,7 +13,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: calico-operator
-  namespace: calico-operator
+  namespace: flux-system
 spec:
   interval: 10m0s
   chart:
@@ -24,6 +24,7 @@ spec:
         kind: HelmRepository
         name: calico-operator-chart
   maxHistory: 3
+  targetNamespace: calico-operator
   install:
     createNamespace: true
     crds: CreateReplace
