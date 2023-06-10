@@ -5,11 +5,12 @@ metadata:
   name: metallb
   namespace: flux-system
 spec:
-  path: ./apps/metallb/metallb/app
+  path: ./apps/metallb/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: apps
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -24,11 +25,12 @@ metadata:
 spec:
   dependsOn:
     - name: metallb
-  path: ./apps/metallb/metallb/config
+  path: ./apps/metallb/config
   prune: true
   sourceRef:
     kind: GitRepository
     name: apps
+    namespace: flux-system
   interval: 30m
   retryInterval: 1m
   timeout: 5m
