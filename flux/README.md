@@ -19,6 +19,22 @@ flux bootstrap git -s \
   --private-key-file ~/.ssh/id_ed25519_flux
 ```
 
+## Upgrades
+
+Install a newer version of the Flux CLI
+
+Generate updated manifests
+
+```bash
+flux install --export > flux-system/gotk-components.yaml
+```
+
+Commit and push changes, then tell Flux to upgrade itself
+
+```bash
+flux reconcile source git flux-system
+```
+
 ## How it works
 
 Flux is bootstrapped to look for its own manifests under the `flux-system` folder in `/flux`
