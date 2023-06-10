@@ -1,17 +1,17 @@
 ---
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-containerdConfigPatches:
-  #  https://kind.sigs.k8s.io/docs/user/local-registry/
-  # - |-
-  #   [plugins."io.containerd.grpc.v1.cri".registry]
-  #     config_path = "/etc/containerd/certs.d"
+kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      extraArgs:
+        enable-admission-plugins: PodSecurity,ValidatingAdmissionWebhook,MutatingAdmissionWebhook,NodeRestriction
 networking:
   # https://github.com/fluxcd/website/issues/1276
-  # disableDefaultCNI: true
+  disableDefaultCNI: true
 
-  # check what calico is configured with:
-  # kubectl exec -ti -n kube-system calicoctl -- /calicoctl get ippool
+  # should match what calico is configured with:
   podSubnet: 192.168.0.0/16
 nodes:
   - role: control-plane

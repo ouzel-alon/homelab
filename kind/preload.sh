@@ -3,33 +3,21 @@
 # preload.sh
 # Preloads images by pulling them from remote registries and loading them to the cluster
 
-set -e
-set -u
-set -o pipefail
+set -euo pipefail
 
-CALICO_VER="3.25.1"
+CALICO_VER="3.26.0"
 METALLB_VER="0.13.9"
 
 IMAGES=(
-    "docker.io/calico/apiserver:v$CALICO_VER"
+    # "docker.io/calico/apiserver:v$CALICO_VER"
     "docker.io/calico/cni:v$CALICO_VER"
-    "docker.io/calico/csi:v$CALICO_VER"
-    "docker.io/calico/node-driver-registrar:v$CALICO_VER"
+    # "docker.io/calico/csi:v$CALICO_VER"
+    # "docker.io/calico/node-driver-registrar:v$CALICO_VER"
     "docker.io/calico/node:v$CALICO_VER"
-    "docker.io/calico/pod2daemon-flexvol:v$CALICO_VER"
+    # "docker.io/calico/pod2daemon-flexvol:v$CALICO_VER"
     "quay.io/metallb/controller:v$METALLB_VER"
     "quay.io/metallb/speaker:v$METALLB_VER"
 )
-
-# KUBE_VER="1.26.3"
-# KUBE_IMAGES=(
-#     "registry.k8s.io/etcd:3.5.6-0"
-#     "registry.k8s.io/kube-apiserver:v$KUBE_VER"
-#     "registry.k8s.io/kube-controller-manager:v$KUBE_VER"
-#     "registry.k8s.io/kube-proxy:v$KUBE_VER"
-#     "registry.k8s.io/kube-scheduler:v$KUBE_VER"
-#     "registry.k8s.io/pause:3.7"
-# )
 
 CLUSTER_BIN="kind"
 
