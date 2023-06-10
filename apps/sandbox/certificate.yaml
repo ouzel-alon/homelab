@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sandbox-wildcard
+  namespace: sandbox
+spec:
+  secretName: sandbox-wildcard-tls
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - "*.sandbox.svc.cluster.local"
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
