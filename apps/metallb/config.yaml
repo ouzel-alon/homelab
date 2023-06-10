@@ -3,6 +3,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: docker-bridge
+  namespace: metallb-system
 spec:
   # Bind to the docker container network:
   # docker network inspect -f '{{.IPAM.Config}}' kind
@@ -17,6 +18,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: docker-bridge-arp
+  namespace: metallb-system
 spec:
   ipAddressPools:
     - docker-bridge

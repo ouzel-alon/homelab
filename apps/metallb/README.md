@@ -2,9 +2,9 @@
 
 Deploys MetalLB in Layer 2 mode and issues LoadBalancer IPs from the top range of the Docker bridge network.
 
-To test it, the `http-echo` app deploys 2 pods behind a LoadBalancer in the default namespace:
+To test it, the `http-echo` app deploys 2 pods behind a LoadBalancer in the default namespace.
 
-The LoadBalancer should be distributing traffic between the two pods:
+The LoadBalancer will then distribute traffic between the two pods:
 
 ```bash
 cd http-echo
