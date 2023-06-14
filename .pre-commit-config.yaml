@@ -19,7 +19,7 @@ repos:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.30.0
+    rev: v1.32.0
     hooks:
       - id: yamllint
         args: [--strict]
