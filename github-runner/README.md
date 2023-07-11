@@ -26,7 +26,7 @@ GH_REPOSITORY
 Pass them to the container:
 
 ```bash
-docker run -e GH_TOKEN="${GH_TOKEN}" -e GH_OWNER="${GH_OWNER}" -e GH_REPOSITORY="${GH_REPOSITORY}" -d --rm --name github-runner github-runner
+docker run --name github-runner -e GH_TOKEN="${GH_TOKEN}" -e GH_OWNER="${GH_OWNER}" -e GH_REPOSITORY="${GH_REPOSITORY}" -d --rm github-runner
 ```
 
 Once the runner is registered to GitHub, point CI to use `runs-on: self-hosted`

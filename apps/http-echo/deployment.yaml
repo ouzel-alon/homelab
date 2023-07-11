@@ -21,7 +21,10 @@ spec:
             - "-text=foo"
           ports:
             - containerPort: 5678
-
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.5"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -45,3 +48,7 @@ spec:
             - "-text=bar"
           ports:
             - containerPort: 5678
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.5"

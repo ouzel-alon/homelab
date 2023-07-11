@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y \
     curl git jq sqlite3 wget \
     && rm -rf /var/lib/apt/lists/*
 
+# https://github.com/actions/setup-python/issues/162#issuecomment-750033576
+# https://github.com/actions/runner/pull/2651
+COPY lsb-release /etc
+
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 WORKDIR /home/runner

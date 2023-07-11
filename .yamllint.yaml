@@ -10,3 +10,4 @@ rules:
 
 ignore:
   - flux/flux-system
+  - cluster/calico

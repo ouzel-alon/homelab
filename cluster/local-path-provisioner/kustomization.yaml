@@ -5,11 +5,12 @@ namespace: local-path-storage
 metadata:
   name: local-path-storage
 resources:
-  - namespace.yaml
-  - rbac.yaml
-  - storageclass.yaml
-  - configmap.yaml
-  - deployment.yaml
+  - https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.24/deploy/local-path-storage.yaml
+  # - namespace.yaml
+  # - rbac.yaml
+  # - storageclass.yaml
+  # - configmap.yaml
+  # - deployment.yaml
 
 transformers:
   - transform-labels.yaml
