@@ -4,23 +4,11 @@ Spins up a single-replica pod of a Jenkins controller backed by a persistent vol
 
 The Jenkins UI is exposed over the `/jenkins` URL path via an ingress rule.
 
-## Requirements
-
-* Kubernetes 1.26+ (including minikube)
-* An ingress controller installed on the cluster. If you're using minikube, enable the `ingress` addon.
-
 ## How to use
 
-In `volume.yaml`, update the node where the persistent volume will be bound to. This defaults to the second minikube node in a multinode cluster setup.
+Requirements:
 
-```yaml
-nodeSelectorTerms:
-- matchExpressions:
-  - key: kubernetes.io/hostname
-      operator: In
-      values:
-      - minikube-m02
-```
+* local-path-provisioner
 
 Deploy to your cluster:
 
@@ -49,10 +37,10 @@ Location: http://<your-cluster-ip>/jenkins/
 
 ## Initial setup
 
-Grab the initial password from the pod, replacing the command below with the jenkins pod name:
+Grab the initial password from the Jenkins pod:
 
 ```bash
-kubectl exec -it -n jenkins <REPLACEME> -- cat /var/jenkins_home/secrets/initialAdminPassword
+kubectl exec -it -n jenkins $(kubectl get pods -l app=jenkins -o jsonpath='{.items[*].metadata.name}' -n jenkins) -- cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 Then navigate with your browser to the `/jenkins` URL on your external cluster IP and provide it the initial password to begin the first time setup process.

@@ -15,3 +15,9 @@ cluster-keys.json
 # prometheus operator
 prometheus/manifests/
 prometheus/vendor/
+
+# python
+.venv
+__pycache__/
+*.py[cod]
+*$py.class

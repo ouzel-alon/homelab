@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
-  namespace: jenkins
   labels:
     app: jenkins
 spec:
@@ -22,7 +21,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: jenkins
-          image: jenkins/jenkins:2.401-rhel-ubi9-jdk17
+          image: jenkins/jenkins:2.401.1-lts-rhel-ubi9-jdk17
           resources:
             limits:
               memory: "2Gi"
@@ -35,12 +34,9 @@ spec:
               containerPort: 8080
             - name: jnlpport
               containerPort: 50000
-          env:
-            - name: JENKINS_OPTS
-              value: --prefix=/jenkins
           livenessProbe:
             httpGet:
-              path: "/jenkins/login"
+              path: "/login"
               port: 8080
             initialDelaySeconds: 90
             periodSeconds: 10
@@ -48,7 +44,7 @@ spec:
             failureThreshold: 5
           readinessProbe:
             httpGet:
-              path: "/jenkins/login"
+              path: "/login"
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10

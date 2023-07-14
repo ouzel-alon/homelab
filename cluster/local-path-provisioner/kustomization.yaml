@@ -1,26 +1,12 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: local-path-storage
+labels:
+  - pairs:
+      app.kubernetes.io/name: local-path-provisioner
+      app.kubernetes.io/managed-by: kustomize
 metadata:
   name: local-path-storage
+namespace: local-path-storage
 resources:
   - https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.24/deploy/local-path-storage.yaml
-  # - namespace.yaml
-  # - rbac.yaml
-  # - storageclass.yaml
-  # - configmap.yaml
-  # - deployment.yaml
-
-transformers:
-  - transform-labels.yaml
-
-# provisioner doesn't like generators:
-# https://github.com/rancher/local-path-provisioner/blob/master/main.go#LL41C1-L41C53
-# configMapGenerator:
-#   - name: local-path-config-cm
-#     files:
-#       - configs/config.json
-#       - setup=configs/setup.sh
-#       - teardown=configs/teardown.sh
-#       - configs/helperPod.yaml

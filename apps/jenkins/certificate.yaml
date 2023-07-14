@@ -2,15 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: sandbox-wildcard
-  namespace: sandbox
+  name: jenkins
 spec:
-  secretName: sandbox-wildcard-tls
+  secretName: jenkins-tls
   usages:
     - server auth
     - client auth
   dnsNames:
-    - "*.sandbox.svc.cluster.local"
+    - "jenkins.127.0.0.1.nip.io"
   issuerRef:
     name: ca-issuer
     kind: ClusterIssuer

@@ -6,33 +6,23 @@ This is currently a mix of static VMs (provisioned with Vagrant) and a Kubernete
 
 ## Kubernetes
 
-State: Prototype
+### Prerequisites
+
+* `kubectl` 1.26+
+* A tool that sets up a local Kubernetes cluster. The sandbox is built with `minikube`.
 
 ### Getting started
 
-Prerequisites:
-
-* `kubectl` 1.26+
-* A tool that sets up a local Kubernetes 1.26 cluster. This can be:
-  * `kind`
-  * `microk8s`
-  * `minikube`
-
-This guide uses `minikube` 1.30+.
-
-1. Start a multinode cluster. Enable a more capable CNI plugin like `calico` or `flannel` so we can apply network policies in the future (and easily tunnel the ingress controller to localhost if using WSL2)
-
 ```bash
-minikube start -n 4 --cni calico
+cluster/up.sh
 ```
 
-2. Enable an ingress controller. Minikube can enable `ingress-nginx` as a convenient addon:
+The script automates configuration of a few things to make minikube behave a bit closer to real-world clusters:
 
-```bash
-minikube addons enable ingress
-```
-
-3. For Minikube, change the default storage provisioner with Rancher's [Local Path Provisioner](https://github.com/rancher/local-path-provisioner). This makes the cluster behave closer to real-world clusters or you'll run into pod crashes when deploying PVs across a multi-node cluster.
+* Starts up at least 3 worker nodes to test HA setups with node affinity (ex: Hashicorp Vault)
+* Enables newer versions of calico, metallb and ingress-nginx than the built-in addons
+* Switches the default StorageClass to Rancher's Local Path Provisioner (`kind` has this by default)
+* Switches the default container runtime to `containerd`, which cloud clusters like AKS and GKE use.
 
 ## Vagrant
 

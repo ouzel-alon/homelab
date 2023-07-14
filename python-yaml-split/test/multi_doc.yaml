@@ -1,0 +1,15 @@
+---
+document: 1
+name: 'cat'
+dictionary:
+  key: value
+# comment
+  # indented comment
+---
+# comment
+document: 2
+name: 'dog'
+config:
+  - list 1
+  - list 2
+  - list 3

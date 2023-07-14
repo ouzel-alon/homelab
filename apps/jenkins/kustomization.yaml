@@ -1,14 +1,14 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-commonLabels:
-  app.kubernetes.io/name: jenkins
 metadata:
   name: jenkins
+namespace: jenkins
 resources:
   - namespace.yaml
   - serviceaccount.yaml
   - volume.yaml
   - deployment.yaml
   - service.yaml
+  - certificate.yaml
   - ingress.yaml
