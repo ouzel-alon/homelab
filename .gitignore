@@ -21,3 +21,9 @@ prometheus/vendor/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# terraform
+terraform.tfstate*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
