@@ -12,5 +12,5 @@ spec:
   dnsNames:
     - "*.sandbox.svc.cluster.local"
   issuerRef:
-    name: ca-issuer
+    name: selfsigned
     kind: ClusterIssuer

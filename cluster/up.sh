@@ -16,8 +16,8 @@ CLUSTER="${1:-minikube}"
 info "Start up Kubernetes cluster"
 minikube start -n 4 \
     --profile "${CLUSTER}" \
-    --cpus 4 \
-    --memory 4g \
+    --cpus 2 \
+    --memory 2g \
     --container-runtime containerd \
     --cni "${SCRIPT_DIR}/calico/calico.yaml" \
     --extra-config=apiserver.enable-admission-plugins=NamespaceExists
