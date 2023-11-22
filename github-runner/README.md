@@ -9,8 +9,7 @@ Create a fine-grained PAT with read/write access to `Administration` on the repo
 ## Build
 
 ```bash
-cd github-runner
-docker build . --tag github-runner
+./github-runner/build.sh
 ```
 
 ## Run
