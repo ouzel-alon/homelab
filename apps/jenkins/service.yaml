@@ -2,8 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: jenkins-service
-  namespace: jenkins
+  name: jenkins
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: "/"
@@ -12,9 +11,9 @@ spec:
   selector:
     app: jenkins
   ports:
-    - name: httpport
+    - name: http
       port: 8080
       targetPort: 8080
-    - name: jnlpport
+    - name: jnlp
       port: 50000
       targetPort: 50000

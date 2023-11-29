@@ -11,5 +11,5 @@ spec:
   dnsNames:
     - "jenkins.127.0.0.1.nip.io"
   issuerRef:
-    name: ca-issuer
+    name: selfsigned
     kind: ClusterIssuer

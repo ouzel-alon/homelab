@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jenkins-ingress
+  name: jenkins
   annotations:
-    cert-manager.io/issuer: ca-issuer
+    cert-manager.io/issuer: selfsigned
 spec:
   ingressClassName: nginx
   tls:
@@ -19,6 +19,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: jenkins-service
+                name: jenkins
                 port:
-                  name: httpport
+                  name: http
