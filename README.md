@@ -24,5 +24,4 @@ The script automates configuration of a few things to make minikube behave a bit
 
 ## Things to do
 
-Setup Vault
 Setup metrics

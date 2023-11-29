@@ -1,0 +1,14 @@
+---
+server:
+  ha:
+    enabled: true
+    raft:
+      enabled: true
+
+  image:
+    tag: "1.15.2"
+
+  updateStrategyType: "RollingUpdate"
+
+injector:
+  enabled: false

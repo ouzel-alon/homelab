@@ -5,12 +5,14 @@
 # ignore downloaded binaries
 ansible/files/*
 
-# helm
-*/charts/*
+# helm and temporary renders
+**/charts/**
+install.yaml
+chart.yaml
 Chart.lock
 
-# vault conveniences
-cluster-keys.json
+# exported vault keys
+vault-keys.json
 
 # prometheus operator
 prometheus/manifests/
