@@ -8,6 +8,16 @@ server:
   image:
     tag: "1.15.2"
 
+  statefulSet:
+    securityContext:
+      container:
+        allowPrivilegeEscalation: false
+        seccompProfile:
+          type: RuntimeDefault
+        capabilities:
+          drop:
+            - ALL
+
   updateStrategyType: "RollingUpdate"
 
 injector:

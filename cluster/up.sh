@@ -21,6 +21,7 @@ minikube start -n 4 \
     --container-runtime containerd \
     --cni "${SCRIPT_DIR}/calico/calico.yaml" \
     --extra-config=apiserver.enable-admission-plugins=NamespaceExists
+    # --extra-config=kubelet.seccomp-default=True
 
 info "Wait 10s for cluster to be stable"
 sleep 10
