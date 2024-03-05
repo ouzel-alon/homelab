@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+  - pairs:
+      app.kubernetes.io/name: elastic
+      app.kubernetes.io/managed-by: kustomize
+metadata:
+  name: elastic
+namespace: elastic
+resources:
+  - https://download.elastic.co/downloads/eck/2.11.1/crds.yaml
+  - https://download.elastic.co/downloads/eck/2.11.1/operator.yaml

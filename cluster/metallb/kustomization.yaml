@@ -9,4 +9,4 @@ metadata:
   name: metallb
 namespace: metallb-system
 resources:
-  - https://raw.githubusercontent.com/metallb/metallb/v0.13.11/config/manifests/metallb-native.yaml
+  - https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-native.yaml

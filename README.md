@@ -24,4 +24,16 @@ The script automates configuration of a few things to make minikube behave a bit
 
 ## Things to do
 
-Setup metrics
+Apps:
+
+- [ ] gitea
+- [ ] in-cluster CI (tekton/woodpecker/github ARC)
+- [ ] metrics (prometheus/victoriametrics)
+- [ ] logging (grafana/loki/promtail)
+- [ ] backups (velero)
+- [ ] ex-cluster registry (harbor/quay.io)
+
+Cluster:
+
+- [ ] bare metal nodes with Talos
+- [ ] storage layer - swap local-path-provisioner with longhorn
